@@ -1,6 +1,4 @@
-import { z } from "zod";
-
-import { procedure, router } from "../trpc";
+import { router } from "../trpc";
 
 import { cmcRouter } from "@/server/routers/cmc";
 
