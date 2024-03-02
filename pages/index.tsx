@@ -1,6 +1,6 @@
 import { Card } from "@chakra-ui/card";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { Badge, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { Badge, Flex, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 import {
   createColumnHelper,
   flexRender,
@@ -27,7 +27,7 @@ const Table = ({ columns, data }: any) => {
       sorting
     },
     onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
+    getSortedRowModel: getSortedRowModel()
   });
 
   return (
@@ -52,6 +52,7 @@ const Table = ({ columns, data }: any) => {
             ))}
           </HStack>
         ))}
+
         {table.getRowModel().rows.map(row => (
           <Card key={row.id} padding="4">
             <HStack gap={"8"} padding={"4"} paddingLeft={"6"} paddingRight={"6"}>
@@ -64,6 +65,10 @@ const Table = ({ columns, data }: any) => {
 
           </Card>
         ))}
+
+        {table.getRowModel().rows.length === 0 && (
+          <Spinner />
+        )}
       </VStack>
     </div>
   );
@@ -114,13 +119,10 @@ const columns = [
 
 const Home: NextPage = () => {
   const { data } = trpc.cmc.latest.useQuery();
-  console.log(data);
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+
   return (
     <div>
-      <Table data={data} columns={columns} />
+      <Table data={data ?? []} columns={columns} />
     </div>
   );
 };
